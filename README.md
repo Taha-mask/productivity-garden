@@ -1,27 +1,58 @@
-# Productivity Garden
+# Personal Growth Garden
 
-## One Meaningful Step (MVP 0.2, React)
+A calmer, browser-local productivity garden: plant a task, let it grow in a 3D garden, complete it to discover one of
+15 imaginary plants. Built jointly by Claude and Codex (see [docs/TEAM.md](docs/TEAM.md)).
 
-Visit `http://localhost:5173/react.html` after starting Vite. Choose one growing task, optionally add a first step, then Start and leave the garden to do the task. Start does not complete a task or grant rewards. Later clears the choice without losing a plant. Other tasks, collection, help and data controls stay available on demand. Arabic/English and RTL are supported; Arabic is the initial language.
+**Live:** https://productivity-garden-nine.vercel.app (React app) · `/classic` (original standalone 3D app)
 
-Selection data is local and separate from both garden stores. The React data dialog exports both gardens plus selection data; its delete control removes selection data only after confirmation. No background measurement, mood tracking or AI transmission is included. The standalone entry remains a separate compatible garden and is not automatically imported into React.
+## What it does (MVP 0.2)
 
-See `docs/product/MILESTONE_B_RESULT.md` and `docs/product/VALIDATION_PLAN.md`. This feature is a usability hypothesis, not a clinically validated treatment; a week of actual use is the next step, rather than adding more features.
+- **One meaningful step.** Choose one growing task, optionally add a smallest first step, press *Start* and leave the
+  app to do it. Start records intent only: no timer, no reward. *Later* clears the choice; nothing is lost.
+- **Garden.** Five-slot seed bank, click the 3D island (or the 2D view) to plant, five time-based growth stages,
+  complete any time. Growth shows elapsed time, not work done.
+- **Collection.** 15 plants in basic / rare / extinct tiers; silhouettes until discovered; Arabic and English lore.
+- **Rewards (unchanged).** Basic → 50% basic / 50% rare. Rare → 25% basic / 50% rare / 25% extinct.
+  Extinct → 50% rare / 50% extinct in the React app (the classic app uses the rare table; kept as-is on purpose).
+- **Gentle extras** (ideas from angelabauer/productivity-garden, reimplemented): archive/restore grown plants,
+  rename tasks, next-stage indicator, saved language and 2D/3D view, a 3-second glow on the newly rewarded seed,
+  and an **opt-in** plant reveal animation (off by default; Your data → toggle).
+- **Arabic / English** with RTL; Arabic is the default.
+- **No** streaks, notifications, mood tracking, leaderboards or AI calls. Not a therapy tool — see Help in the app.
 
-## Shared mechanics and safe saves (milestone A)
+## Run, test, build
 
-Both entries now use `shared/game/` for growth, reward rolls and task transitions. Compatibility profiles deliberately preserve each entry's existing timing, species selection and extinct rewards. Existing storage keys and schemas remain separate; neither entry imports or merges the other's progress.
+```bash
+npm install
+npm run dev -- --port 5173   # React: /react.html · classic: /index.html
+npm test                     # Node test runner: shared engine, persistence, selection, i18n, reveal
+npm run build                # builds both entries into dist/
+```
 
-Run `npm test` for legacy behavior parity, protected-save and shared-engine checks. Run `npm run build` for both app entries. No production save is made merely by loading either page. Before the first mutation of an existing save, its exact original text is stored under `<legacy-key>:backup:pre-shared-v1` and verified. Failed backups or invalid data block mutations and expose Retry and Export controls. Export includes raw saves from both entries and their backups; keep this file private.
+Deployment: Vercel project `productivity-garden`, linked to this repo; every push to `main` deploys.
+`vercel.json` makes the React app the site root and serves the classic app at `/classic`.
 
-Writes use the browser Web Locks API to serialize cooperating tabs and reject stale sessions. Reload older open app tabs after upgrading: previously loaded code does not participate in these locks. Browsers without Web Locks can view/export but cannot commit changes. Browser storage can still be cleared by the browser or user; local snapshots are not a substitute for an exported backup. Cross-origin restore/import is not implemented.
+## Code map
 
-See `docs/product/MILESTONE_A_RESULT.md` for validation and remaining checks. The One Meaningful Step UI is not included in milestone A.
+| Path | What |
+|---|---|
+| `shared/game/` | The one game engine (stages, rewards, transitions) with a compatibility profile per app |
+| `shared/meaningfulStep/`, `shared/persistence/` | Selection model; protected local saves (backup before first write, Web Locks, export) |
+| `src/` | React app: components, hooks, i18n, SVG art (`src/art`), catalogue |
+| `garden3d.js` | Shared Three.js scene used by both apps |
+| `app.js`, `index.html`, `style.css`, `data.js` | Classic standalone app (uses `shared/game/`) |
+| `tests/` | `npm test` suites (+ `tests/browser/text-zoom.html` manual harness) |
+| `docs/` | Research, product spec, audits, trial template, agent chat |
 
-A browser-local productivity game with an interactive Three.js garden. Run `npm install`, then `npm run dev -- --port 5173` and visit http://localhost:5173/index.html. Drag to rotate the island, scroll/pinch to zoom, and click grass to plant. Click a plant or a task chip to see its task. Keyboard users can use “Plant a task”.
+## Data
 
-Choose one of five mystery seeds, click a garden spot, and name your task. Five growth stages advance every five minutes; stage 5 is reached after 20 minutes. Completing a task at any time reveals the mature plant, updates the collection, and returns one seed. There are fifteen plants across basic, rare, and extinct tiers. Progress persists in browser localStorage; clearing site data removes it.
+Everything stays in this browser's localStorage, per site address (localhost and the Vercel URL are separate
+gardens). The two apps keep separate saves and never merge. *Your data → Export* downloads a private JSON copy.
 
-Basic rewards: 50% basic / 50% rare. Rare rewards: 25% basic / 50% rare / 25% extinct. For this prototype, extinct rewards use the rare distribution. No automatic seed replenishment. Mature plants remain in the garden. Desktop and mobile layouts supported.
+## Status
 
-Run `npm run build` to build both the 3D app (`index.html`) and the separate React app (`react.html`). Three.js is the MIT-licensed open-source foundation: https://github.com/mrdoob/three.js. Garden and plant meshes are created procedurally for this project; catalogue icons remain emoji. Optional Google Fonts fall back to system fonts when offline. Existing standalone progress is retained under the same localStorage key. A WebGL failure leaves keyboard planting and task chips usable. See COORDINATION-3D.md for the Claude integration boundary.
+Engineering for MVP 0.2 is done and verified (see `docs/product/RELEASE_AUDIT.md`). Next step is not more features:
+it is a real week of use following `docs/product/VALIDATION_PLAN.md` with `docs/trial/TRIAL_LOG_TEMPLATE.md`.
+Not yet verified: pinch-zoom on a physical phone, real browser back/forward-cache restore.
+
+Three.js (MIT) is the 3D foundation; all models and art are made for this project.

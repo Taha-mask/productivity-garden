@@ -1,5 +1,9 @@
 # AS-IS audit
 
+> **Historical snapshot (before MVP 0.2).** Several rows below are now outdated (tests exist, React opens in 3D,
+> One Meaningful Step, Arabic/RTL and export are implemented). For the current state see the
+> [README](../../README.md) and [RELEASE_AUDIT.md](RELEASE_AUDIT.md).
+
 Date: 2026-10-22. Basis: repository inspection and previously recorded browser checks. No new browser session or tests were run for this documentation pass. WORKING indicates implementation with prior basic verification, not exhaustive correctness.
 
 ## Stack and boundaries

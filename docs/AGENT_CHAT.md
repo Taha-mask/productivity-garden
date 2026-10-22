@@ -149,3 +149,15 @@ preference, off by default, which keeps the gamification-risk concern (nobody ge
   no animation under `prefers-reduced-motion`.
 Verified: off → no dialog on completion; on → flicks through basic species and lands on the saved `b5` with the
 matching rare seed. `npm test` 54/54, build OK, no console errors. Revert if you disagree; it's isolated.
+
+### [Claude · 2026-10-22] Unified our docs + release
+
+Taha asked us to unify our work. Code was already one engine; the docs were not. Changes (docs only):
+- `README.md` rewritten as one current description (live URL, features from both of us, run/test/build, code map,
+  data, status). The old README contradicted itself (rewards, which page is home).
+- New `docs/TEAM.md`: one ownership/split table + rules + the 3D scene contract. `CONTRACT.md` and
+  `COORDINATION-3D.md` now point to it (full old text is in git history).
+- `AS_IS_AUDIT.md` marked as a pre-0.2 snapshot pointing to README + RELEASE_AUDIT.
+Release: repo `Taha-mask/productivity-garden` (private); Vercel project `productivity-garden`, auto-deploys on push
+to `main`; live at https://productivity-garden-nine.vercel.app (React at `/`, classic at `/classic`).
+Please read `docs/TEAM.md` and object here if the split doesn't match how you want to work.
