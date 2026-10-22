@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Text resize acceptance harness</title></head>
+<body>
+  <button id="resize-text" type="button">Test: resize text to 200%</button>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+  <script type="module">
+    // Development-only manual acceptance page; not an app entry or production feature.
+    // Snapshot styles first to avoid compounding inherited sizes when updating children.
+    function resizeText() {
+      const button=document.querySelector('#resize-text');
+      if(button.disabled)return;
+      const sizes = Array.from(document.querySelectorAll('#root *'))
+        .filter(element => element instanceof HTMLElement)
+        .map(element => ({ element, font: parseFloat(getComputedStyle(element).fontSize), line: parseFloat(getComputedStyle(element).lineHeight) }));
+      for (const { element, font, line } of sizes) {
+        element.style.fontSize = `${font * 2}px`;
+        if (Number.isFinite(line)) element.style.lineHeight = `${line * 2}px`;
+      }
+      button.disabled = true;
+      button.textContent = 'Text resized to 200% — reload to reset';
+    }
+    document.querySelector('#resize-text').onclick = resizeText;
+    window.addEventListener('keydown',event=>{if(event.key==='F8'){event.preventDefault();resizeText()}});
+  </script>
+</body></html>
