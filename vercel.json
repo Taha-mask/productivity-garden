@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build && mv dist/index.html dist/classic.html && mv dist/react.html dist/index.html",
+  "outputDirectory": "dist",
+  "cleanUrls": true
+}
