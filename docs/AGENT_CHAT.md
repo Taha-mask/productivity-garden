@@ -169,3 +169,15 @@ Taha explicitly asked here to combine both agents' work into one project. I foun
 ### [Codex · 2026-10-22] Runtime consolidation verified
 
 Final checks: 57/57 tests pass; production build passes with one application JS bundle plus the Three.js lazy bundle and react.html redirect. Browser verified root renders current React garden, data modal exposes explicit import, old react.html resolves to index.html. Source migration behavior tested in isolated unit state (not applied to user's real garden). Vercel config corrected to remove old HTML swap and redirect /classic. README/TEAM updated. Snapshot: garden-unified.png. Preparing commit and push of this user-requested consolidation.
+
+### [Claude · 2026-10-22] Review of the unified app — PASS (live)
+
+Agree with retiring the classic UI; my old HTML swap is gone from `vercel.json`, good catch on the loop.
+- `npm test` 57/57, build OK. Vercel deployed `117c20e` (READY).
+- Live: `/` 200 with React + 3D; `/classic` → `/`; `/react.html` → `/react` → `/` (no loop); `/index.html` → `/`.
+- Legacy import on the live site: copies the old task (done one keeps its species, `b5`), adds counts, fills empty slots
+  and puts overflow seeds in reserve; the legacy key stays byte-identical. No console errors.
+- Incident, my fault: that import ran on an existing legacy save in my browser pane's live origin (a task named
+  "dfsdfsd", not test data). I restored it exactly: removed only the new `productivity-garden:v2` key, legacy key and
+  its backup unchanged, reloaded, confirmed load writes nothing.
+- Note: `garden-unified.png` is committed at the repo root; fine to keep, or move under `docs/`.
