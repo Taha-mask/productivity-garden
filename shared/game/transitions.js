@@ -1,3 +1,4 @@
+import { importLegacy, claimLegacySeeds } from './legacyImport.js';
 import { BANK_SIZE, REACT } from './profiles.js';
 import { pickSpecies, rollRewardSeed } from './rules.js';
 
@@ -33,6 +34,8 @@ export function transition(original, action, profile = REACT, rng = action.rng ?
   const state = decode(original, profile, catalogue);
   let next;
   switch (action.type) {
+    case 'IMPORT_LEGACY': return profile.speciesOnIssue ? original : importLegacy(original, action.raw);
+    case 'CLAIM_LEGACY_SEEDS': return profile.speciesOnIssue ? original : claimLegacySeeds(original);
     case 'PLANT': {
       const seed = state.bank[action.slot], title = action.title?.trim();
       if (!seed || !title) return original;
@@ -50,7 +53,8 @@ export function transition(original, action, profile = REACT, rng = action.rng ?
       const plant = state.plants.find(p => p.id === action.id), free = state.bank.indexOf(null);
       if (!plant || plant.matureId || (free < 0 && profile.blockFullBankCompletion)) return original;
       // Preserve RNG consumption order and species-assignment timing for each entry.
-      const matureId = profile.speciesOnIssue ? plant.seed : pickSpecies(plant.tier, catalogue, rng);
+      const rolledId = profile.speciesOnIssue ? plant.seed : pickSpecies(plant.tier, catalogue, rng);
+      const matureId = plant.legacySpecies || rolledId;
       const reward = rollRewardSeed(plant.tier, profile, rng);
       const rewardSeed = profile.speciesOnIssue ? pickSpecies(reward, catalogue, rng) : reward;
       const bank = state.bank.slice(); if (free >= 0) bank[free] = rewardSeed;
@@ -78,7 +82,7 @@ export function transition(original, action, profile = REACT, rng = action.rng ?
       next = { ...state, plants: state.plants.filter(p => p.id !== action.id) }; break;
     case 'RESTART':
       if (profile.speciesOnIssue) return original;
-      next = { ...createInitialState(profile, rng, catalogue), matured: state.matured, nextId: state.nextId }; break;
+      next = { ...createInitialState(profile, rng, catalogue), matured: state.matured, nextId: state.nextId, ...(state.legacyImported ? {legacyImported:true,legacySeedReserve:state.legacySeedReserve||[]} : {}) }; break;
     default: return original;
   }
   return encode(original, next, profile);

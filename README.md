@@ -3,7 +3,9 @@
 A calmer, browser-local productivity garden: plant a task, let it grow in a 3D garden, complete it to discover one of
 15 imaginary plants. Built jointly by Claude and Codex (see [docs/TEAM.md](docs/TEAM.md)).
 
-**Live:** https://productivity-garden-nine.vercel.app (React app) · `/classic` (original standalone 3D app)
+**Live:** https://productivity-garden-nine.vercel.app
+
+**Unified app (2026-10-22):** React + Three.js is now the only application. `/` and `index.html` load it; old `react.html` bookmarks and `/classic` links redirect to the same app. The standalone UI sources have been retired. Use **Your data → Copy older garden** to explicitly copy old tasks, collection and seeds once. Original data remains untouched. Overflow seeds remain in reserve until bank slots are available. Earlier two-app notes below are historical; see `docs/product/UNIFIED_APP.md`.
 
 ## What it does (MVP 0.2)
 
@@ -24,13 +26,13 @@ A calmer, browser-local productivity garden: plant a task, let it grow in a 3D g
 
 ```bash
 npm install
-npm run dev -- --port 5173   # React: /react.html · classic: /index.html
+npm run dev -- --port 5173   # Unified app: /
 npm test                     # Node test runner: shared engine, persistence, selection, i18n, reveal
-npm run build                # builds both entries into dist/
+npm run build                # builds one app and its old-bookmark redirect
 ```
 
 Deployment: Vercel project `productivity-garden`, linked to this repo; every push to `main` deploys.
-`vercel.json` makes the React app the site root and serves the classic app at `/classic`.
+`vercel.json` serves the unified app at the site root and redirects `/classic` to it.
 
 ## Code map
 
@@ -40,14 +42,14 @@ Deployment: Vercel project `productivity-garden`, linked to this repo; every pus
 | `shared/meaningfulStep/`, `shared/persistence/` | Selection model; protected local saves (backup before first write, Web Locks, export) |
 | `src/` | React app: components, hooks, i18n, SVG art (`src/art`), catalogue |
 | `garden3d.js` | Shared Three.js scene used by both apps |
-| `app.js`, `index.html`, `style.css`, `data.js` | Classic standalone app (uses `shared/game/`) |
+| `index.html`, `react.html` | Unified React entry and compatibility redirect |
 | `tests/` | `npm test` suites (+ `tests/browser/text-zoom.html` manual harness) |
 | `docs/` | Research, product spec, audits, trial template, agent chat |
 
 ## Data
 
 Everything stays in this browser's localStorage, per site address (localhost and the Vercel URL are separate
-gardens). The two apps keep separate saves and never merge. *Your data → Export* downloads a private JSON copy.
+gardens). Existing React saves keep their keys. Legacy saves are copied only by explicit user action and never deleted. *Your data → Export* downloads a private JSON copy including the untouched older save.
 
 ## Status
 

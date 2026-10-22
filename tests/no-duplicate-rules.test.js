@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 
-test('both entries depend on shared game algorithms rather than local reward math', () => {
-  for (const path of ['app.js', 'src/game/reducer.js', 'src/game/rules.js']) {
+test('the unified app depends on shared game algorithms rather than local reward math', () => {
+  for (const path of ['src/game/reducer.js', 'src/game/rules.js']) {
     const source = readFileSync(new URL('../' + path, import.meta.url), 'utf8');
     assert.match(source, /shared\/game\//, path);
     assert.doesNotMatch(source, /r\s*<\s*\.?[257]\d*|Math\.floor\([^\n]*\/(?:300000|30000)/, path);

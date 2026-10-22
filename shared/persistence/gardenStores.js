@@ -12,6 +12,9 @@ export function validateGarden(state, profile, catalogue = REACT_SPECIES) {
   const plants = standalone ? state.garden : state.plants;
   const counts = standalone ? state.counts : state.matured;
   const ids = new Set(catalogue.map(p => p.id));
+  if (!standalone && (state.legacyImported !== undefined && typeof state.legacyImported !== 'boolean'
+    || state.legacySeedReserve !== undefined && (!Array.isArray(state.legacySeedReserve)
+      || state.legacySeedReserve.some(seed => !TIERS.includes(seed))))) return false;
   if (!Array.isArray(bank) || bank.length !== BANK_SIZE || !Array.isArray(plants) || !object(counts)) return false;
   if (bank.some(seed => seed !== null && !(standalone ? ids.has(seed) : TIERS.includes(seed)))) return false;
   if (Object.entries(counts).some(([id, n]) => !ids.has(id) || !counter(n))) return false;
@@ -23,6 +26,7 @@ export function validateGarden(state, profile, catalogue = REACT_SPECIES) {
     } else if (!Number.isSafeInteger(p.id) || p.id < 1 || !TIERS.includes(p.tier) || !finite(p.plantedAt)
       || !(p.matureId === null || catalogue.some(c => c.id === p.matureId && c.tier === p.tier))) return false;
     seen.add(p.id);
+    if (!standalone && p.legacySpecies !== undefined && !catalogue.some(c => c.id === p.legacySpecies && c.tier === p.tier)) return false;
   }
   return standalone || (Number.isSafeInteger(state.nextId) && state.nextId >= 1
     && plants.every(p => p.id < state.nextId));

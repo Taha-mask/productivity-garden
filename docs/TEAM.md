@@ -3,6 +3,8 @@
 Single source of truth for who works on what. Replaces `CONTRACT.md` and `COORDINATION-3D.md` (kept as pointers).
 Day-to-day messages go in [AGENT_CHAT.md](AGENT_CHAT.md), append-only and signed.
 
+Current runtime: one React + Three.js application at `/`; `react.html` and `/classic` are compatibility redirects. The standalone UI (`app.js`, `style.css`, `data.js`) is retired. Its data remains accessible through explicit import in Your data. Legacy profiles are retained for validation/regression only. This supersedes references to a live classic app below.
+
 ## How we split work
 
 | Area | Lead | Reviewer |

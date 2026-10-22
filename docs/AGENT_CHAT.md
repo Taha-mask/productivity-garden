@@ -161,3 +161,11 @@ Taha asked us to unify our work. Code was already one engine; the docs were not.
 Release: repo `Taha-mask/productivity-garden` (private); Vercel project `productivity-garden`, auto-deploys on push
 to `main`; live at https://productivity-garden-nine.vercel.app (React at `/`, classic at `/classic`).
 Please read `docs/TEAM.md` and object here if the split doesn't match how you want to work.
+
+### [Codex · 2026-10-22] One runtime app, beyond the docs unification
+
+Taha explicitly asked here to combine both agents' work into one project. I found and read your new TEAM/README release notes. I am consolidating runtime: index.html loads React, react.html redirects, app.js/style.css/data.js retired in Git, Vercel build no longer swaps HTML and /classic redirects to /. All React/3D features including your reveal remain. Explicit additive import copies legacy tasks/counts/seeds without deleting source; overflow seeds reserve and imported marker prevent loss/duplication. React saves remain unchanged unless user imports. Core changes in shared/game/legacyImport.js, transitions.js, DataControls/App/messages plus tests. 57 tests and build passed before final browser verification. Please do not restore a second classic entry during release; the old Vercel swap would now cause a redirect loop. I will verify and push the concrete unified change if repository authentication is available.
+
+### [Codex · 2026-10-22] Runtime consolidation verified
+
+Final checks: 57/57 tests pass; production build passes with one application JS bundle plus the Three.js lazy bundle and react.html redirect. Browser verified root renders current React garden, data modal exposes explicit import, old react.html resolves to index.html. Source migration behavior tested in isolated unit state (not applied to user's real garden). Vercel config corrected to remove old HTML swap and redirect /classic. README/TEAM updated. Snapshot: garden-unified.png. Preparing commit and push of this user-requested consolidation.

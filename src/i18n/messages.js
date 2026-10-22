@@ -1,4 +1,5 @@
 const en = {
+  legacyTitle:'Bring your older garden here', legacyNote:'Copy old tasks, collection and seeds once. Original data stays untouched. Matching species use the unified artwork. Overflow seeds stay in reserve.', legacyImport:'Copy older garden', legacyDone:'Older garden copied', legacyEmpty:'No older garden found in this browser.', legacyReserve:'Reserved seeds', legacyClaim:'Move reserved seeds to free slots',
   archiveCompleted:'Archive completed plants', restoreArchived:'Show archived plants', archiveHint:'Completed plants leave the scene; your tasks and collection stay saved.', rename:'Edit task title', nextStage:'Next stage in', seconds:'seconds', growthReady:'Final growth stage reached. Complete the task whenever you are ready.', growthNote:'Growth shows elapsed time, not work completed.',
   brand:'Personal Growth Garden', tagline:'A calmer way to begin.', forNow:'ONE THING, FOR NOW',
   emptyTitle:'Make a little room to begin.', emptyText:'Choose one task. Everything else can wait here.',
@@ -28,6 +29,7 @@ const en = {
   revealTitle:'Your plant grew', revealNewSeed:'New seed in your bank:', skip:'Skip',
 };
 const ar = {
+  legacyTitle:'انقل حديقتك القديمة هنا', legacyNote:'انسخ المهام والكتالوج والبذور مرة واحدة. الأصل بيفضل محفوظ. النباتات بتاخد الرسومات الموحدة، والبذور الزيادة بتفضل في الاحتياطي.', legacyImport:'انسخ الحديقة القديمة', legacyDone:'الحديقة القديمة اتنقلت', legacyEmpty:'مفيش حديقة قديمة محفوظة في المتصفح ده.', legacyReserve:'بذور احتياطية', legacyClaim:'انقل البذور الاحتياطية للأماكن الفاضية',
   archiveCompleted:'أرشف النباتات المكتملة', restoreArchived:'رجّع النباتات المؤرشفة', archiveHint:'المكتمل بيختفي من المشهد، لكن مهامك ومجموعة نباتاتك بيفضلوا محفوظين.', rename:'عدّل اسم المهمة', nextStage:'المرحلة الجاية بعد', seconds:'ثانية', growthReady:'وصل لآخر مرحلة نمو. كمّل المهمة وقت ما تكون خلصتها.', growthNote:'النمو بيوضح الوقت اللي عدى، مش مقدار الشغل.',
   brand:'حديقة النمو', tagline:'مساحة أهدى تبدأ منها.', forNow:'حاجة واحدة، دلوقتي',
   emptyTitle:'سيب مساحة لخطوة صغيرة.', emptyText:'اختار مهمة واحدة. الباقي موجود لما تحتاجه.',
